@@ -36,8 +36,8 @@ flowchart TB
 
     subgraph AISquad["Esquadrão Autônomo de IA (Luís IA)"]
         LUIS["Orquestrador Luís (Google ADK + LangGraph)"]
-        STUDIO["Estúdio Multimodal (Veo 3.1 Vídeo + ElevenLabs/Chirp3-HD + Lyria-002 -14 LUFS)"]
-        META["Meta Graph API v27 (Reels Resumable Upload + Webhooks de Comentários/DMs)"]
+        STUDIO["Pipeline Multimodal Generativo (Vídeo, Voz & Áudio com Revisão Humana)"]
+        META["Integrações Omnichannel & Social APIs (Publicação & Atendimento Assistido)"]
     end
 
     PWA & MERCH --> API
