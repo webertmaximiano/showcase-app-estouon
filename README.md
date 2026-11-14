@@ -1,58 +1,66 @@
-# 🚀 Showcase: EstouOn - Cardápio e Catálogo Digital
+# 🍔 Case Study Arquitetural — EstouOn Food (SaaS Multi-Restaurante & IA Multimodal)
 
-![Status](https://img.shields.io/badge/Status-Em_Produção-brightgreen?style=for-the-badge)
-![Repo](https://img.shields.io/badge/Repositório-Privado-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Em_Produção-10B981?style=for-the-badge)
+[![Produção](https://img.shields.io/badge/Acessar-estouon.app.br-EF4444?style=for-the-badge)](https://estouon.app.br)
+[![Instagram Oficial](https://img.shields.io/badge/Instagram-%40estouon.app-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/estouon.app/)
+![Arquitetura](https://img.shields.io/badge/Arquitetura-PostGIS_%2B_Typesense_%2B_Reverb-3B82F6?style=for-the-badge)
 
-## 🎯 Sobre o Projeto
-
-**EstouOn** é uma plataforma SaaS (Software as a Service) projetada para que pequenos e médios negócios possam criar e gerenciar seus cardápios ou catálogos de produtos de forma rápida e descomplicada. A plataforma gera um link exclusivo que se integra facilmente com WhatsApp, Instagram e Facebook, permitindo que os negócios automatizem e impulsionem suas vendas online sem intermediários ou taxas por pedido.
-
-Este projeto é o resultado da refatoração e modernização completa de um sistema omnichannel legado, transformado em um produto escalável e pronto para o mercado.
-
-*Este repositório serve como uma vitrine pública para o projeto. O código-fonte principal é privado.*
+> **Nota de Governança:** Este repositório público documenta a arquitetura de engenharia do **EstouOn Food** (`estouon.app.br`). O código-fonte de produção é mantido em repositório privado.
 
 ---
 
-## ✨ Principais Funcionalidades (Features)
+## 🎯 Sobre a Plataforma
 
-* **Loja Personalizável:** URL exclusiva, cores e identidade visual da marca.
-* **Gestão de Produtos:** Cadastro ilimitado de categorias, produtos, variações e fotos.
-* **Carrinho de Compras e Pedidos:** Painel para recebimento e gestão de pedidos em tempo real.
-* **Integração Social:** Conexão direta para receber pedidos via WhatsApp e para divulgação no Instagram e Facebook.
-* **Pagamentos via PIX:** Integração nativa para pagamentos diretos.
-* **QR Code:** Geração de QR Code para a loja (mesa, flyer, etc.) e para atendimento.
-* **PWA (Progressive Web App):** A loja se comporta como um aplicativo no celular do cliente, sem precisar instalar nada.
-* **Marketing:** Ferramentas como banners promocionais e cupons de desconto.
+O **EstouOn Food** é uma plataforma SaaS Multi-Restaurante, Delivery e Cardápio Digital construída para eliminar taxas abusivas de intermediação sobre comércios locais (restaurantes, hamburguerias, food trucks, mercados e hortifrutis).
+
+A plataforma combina uma arquitetura de **alta conversão e baixa latência** com um **Esquadrão Autônomo de Marketing e Atendimento por IA (`Luís IA`)** que produz campanhas multimodais (Reels em vídeo, carrosséis e locuções) e responde clientes em tempo real no Instagram e WhatsApp.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🏗️ Arquitetura de Produção & Diferenciais Técnicos
 
-Aqui listamos as principais tecnologias usadas para construir o EstouOn. *Webert, por favor, confirme e ajuste esta lista conforme seu projeto.*
+```mermaid
+flowchart TB
+    subgraph Client["Experiência do Consumidor & Lojista"]
+        PWA["Vitrine PWA de Alta Conversão (React / TypeScript)"]
+        MERCH["Painel do Lojista & KDS em Tempo Real"]
+    end
 
-![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+    subgraph Backend["Núcleo EstouOn Food (Docker Swarm)"]
+        API["Laravel API + Workers de Fila + Scheduler"]
+        REV["Laravel Reverb (WebSockets Tempo Real)"]
+        PG["PostgreSQL + PostGIS (Raios de Entrega Geoespaciais)"]
+        TS["Typesense (Busca Instantânea Tolerante a Erros)"]
+        RD["Redis (Filas, Cache & Sessões)"]
+    end
+
+    subgraph AISquad["Esquadrão Autônomo de IA (Luís IA)"]
+        LUIS["Orquestrador Luís (Google ADK + LangGraph)"]
+        STUDIO["Estúdio Multimodal (Veo 3.1 Vídeo + ElevenLabs/Chirp3-HD + Lyria-002 -14 LUFS)"]
+        META["Meta Graph API v27 (Reels Resumable Upload + Webhooks de Comentários/DMs)"]
+    end
+
+    PWA & MERCH --> API
+    PWA & MERCH <--> REV
+    API --> PG & TS & RD
+    LUIS --> STUDIO --> META
+```
+
+### Engenharia de Destaque
+- **Cálculo Geoespacial com `PostGIS`:** Validação precisa de polígonos e raios de entrega com indexação espacial para cálculo instantâneo de frete.
+- **Busca Instantânea com `Typesense`:** Indexação de cardápios e catálogos multi-loja com resposta sub-50ms.
+- **Operação em Tempo Real (`Laravel Reverb`):** Atualização instantânea de status de pedidos da cozinha até o cliente final sem *polling* HTTP.
+- **Marketing & Atendimento Autônomo (`Luís IA`):** Agente de domínio dedicado com personagem 3D próprio, direção criativa multimodal segmentada por nicho, armazenamento em **Cloudflare R2 (`S3v4`)** e *LLM-as-a-Judge* para conformidade publicitária.
+
+---
+
+## 🛠️ Stack Tecnológica
+
+![PHP](https://img.shields.io/badge/PHP_8.4-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
----
-
-## 📸 Screenshots da Aplicação
-
-**Vitrine da Loja Demo:**
-![Vitrine da Loja Demo](link_para_seu_screenshot_aqui.png)
-
-**Painel de Gestão de Produtos:**
-![Painel de Gestão de Produtos](link_para_seu_screenshot_aqui.png)
-
-**Painel de Recebimento de Pedidos:**
-![Painel de Recebimento de Pedidos](link_para_seu_screenshot_aqui.png)
-
----
-
-## 🌐 Acessar a Aplicação
-
-Você pode ver o projeto em funcionamento e criar uma conta de teste no site oficial:
-
-### **[visitar EstouOn.app.br](https://estouon.app.br)**
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![PostgreSQL PostGIS](https://img.shields.io/badge/PostGIS-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Typesense](https://img.shields.io/badge/Typesense-D92773?style=for-the-badge&logo=algolia&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![Docker Swarm](https://img.shields.io/badge/Docker_Swarm-2496ED?style=for-the-badge&logo=docker&logoColor=white)
